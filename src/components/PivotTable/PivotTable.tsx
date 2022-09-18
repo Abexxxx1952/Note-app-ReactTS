@@ -1,7 +1,7 @@
 import React from "react";
 
-const ActiveNote = () => {
+const PivotTable = () => {
   return <div></div>;
 };
 
-export default ActiveNote;
+export default PivotTable;
