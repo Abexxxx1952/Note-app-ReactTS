@@ -11,7 +11,7 @@ function App() {
 
   return (
     <main className={style.App}>
-      <Tables />
+      {!modalFlag && <Tables />}
 
       {modalFlag && <Modal />}
     </main>

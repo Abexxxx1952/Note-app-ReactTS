@@ -1,24 +1,95 @@
+import { MouseEvent } from "react";
 import { INote } from "../../types/note";
-import { Tables } from "../../types/tables";
+import { eTables } from "../../types/tables";
+import { IPivot } from "../../types/pivot";
+import { ActiveTable } from "../../types/activeTable";
+import { IInputFieldsModal } from "../../types/inputFieldsModal";
+import { Categories } from "../../types/Categories";
 
 import {
   activeTableHeaders,
   archivedTableHeaders,
+  pivotTableHeaders,
   activeTableIcons,
   archiveTableIcons,
 } from "../../utils/constant";
 
+import { useAppDispatch } from "../../hooks/redux";
+import {
+  removeActiveNote,
+  removeArchivedNote,
+  archiveNote,
+  unzipNote,
+  openModal,
+  editFieldsValues,
+} from "../../redux/actions";
+
 import style from "./Table.module.css";
 
-const Table = (tableName: Tables, rows: INote[]): JSX.Element => {
+interface IMyProps {
+  tableName: ActiveTable | eTables;
+  rows: Array<INote> | Array<IPivot>;
+}
+
+const Table: React.FC<IMyProps> = ({ tableName, rows }: IMyProps) => {
+  const dispatch = useAppDispatch();
+
+  const deleteActiveNote = (id: INote["id"]) => {
+    dispatch(removeActiveNote(id));
+  };
+  const deleteArchivedNote = (id: INote["id"]) => {
+    dispatch(removeArchivedNote(id));
+  };
+  const archiveActiveNote = (id: INote["id"]) => {
+    dispatch(archiveNote(id));
+  };
+  const unzipArchivedNote = (id: INote["id"]) => {
+    dispatch(unzipNote(id));
+  };
+  const editActiveNote = (note: INote) => {
+    const seededFields: IInputFieldsModal = {
+      inputValue: note.name,
+      creation_time: note.creation_time,
+      inputCategory: note.category as Categories,
+      inputContent: note.content,
+      inputDates: note.dates,
+    };
+    dispatch(openModal);
+    dispatch(editFieldsValues(seededFields));
+  };
+
+  const clickIconHandler = (e: any, note: INote) => {
+    if (e.target.alt === "trash_icon" && tableName === "activeTable") {
+      deleteActiveNote(note.id);
+    }
+    if (e.target.alt === "trash_icon" && tableName === "archivedTable") {
+      deleteArchivedNote(note.id);
+    }
+    if (e.target.alt === "archive_icon") {
+      archiveActiveNote(note.id);
+    }
+    if (e.target.alt === "unzip_icon") {
+      unzipArchivedNote(note.id);
+    }
+    if (e.target.alt === "edit_icon") {
+      editActiveNote(note);
+    }
+  };
+
   return (
-    <div className={`${style}.${tableName}_table`}>
-      <div className={`${style}.${tableName}_table_header`}>
+    <div className={style.activeTable_table}>
+      {/* -------- Table header start ------------ */}
+      <div className={style.activeTable_table_header}>
         {tableName === "activeTable" &&
           activeTableHeaders.map((elem) => {
             return (
-              <div className={`${style}.${tableName}_table_header__item`}>
-                ${elem}
+              <div
+                className={
+                  eTables.ActiveTable && style.activeTable_table_header__item
+                }
+                key={elem}
+              >
+                {elem}
               </div>
             );
           })}
@@ -26,66 +97,166 @@ const Table = (tableName: Tables, rows: INote[]): JSX.Element => {
         {tableName === "archivedTable" &&
           archivedTableHeaders.map((elem) => {
             return (
-              <div className={`${style}.${tableName}_table_header__item`}>
-                ${elem}
+              <div
+                className={
+                  eTables.ArchivedTable &&
+                  style.archivedTable_table_header__item
+                }
+                key={elem}
+              >
+                {elem}
+              </div>
+            );
+          })}
+        {tableName === "pivotTable" &&
+          pivotTableHeaders.map((elem) => {
+            return (
+              <div
+                className={
+                  eTables.PivotTable && style.pivotTable_table_header__item
+                }
+                key={elem}
+              >
+                {elem}
               </div>
             );
           })}
       </div>
-      <div className={`${style}.${tableName}_table_row__wrapper`}>
-        {rows.map((elem) => {
-          return (
-            <div className={`${style}.${tableName}_table_row`}>
-              <div className={`${style}.${tableName}_table_row__item`}>
-                ${elem.name}
-              </div>
-              <div className={`${style}.${tableName}_table_row__item`}>
-                ${elem.creation_time}
-              </div>
-              <div className={`${style}.${tableName}_table_row__item`}>
-                ${elem.category}
-              </div>
-              <div className={`${style}.${tableName}_table_row__item`}>
-                ${elem.content}
-              </div>
-              <div className={`${style}.${tableName}_table_row__item`}>
-                ${elem.dates}
-              </div>
+      {/* ---------- Table header end ------------*/}
 
-              {tableName === "activeTable" && (
-                <div className={`${style}.${tableName}_table_row__item`}>
-                  {activeTableIcons.map((elem) => {
-                    return (
-                      <div className="icons_wrapper">
-                        <img
-                          src={elem.src}
-                          alt={elem.alt}
-                          className={elem.style}
-                        ></img>
-                      </div>
-                    );
-                  })}
+      <div>
+        {/* --------- Table rows start ---------- */}
+        {(tableName === "activeTable" || tableName === "archivedTable") &&
+          (rows as Array<INote>).map((elem) => {
+            return (
+              <div
+                className={
+                  (eTables.ActiveTable || eTables.ArchivedTable) &&
+                  style.activeTable_table_row
+                }
+                key={elem.id}
+              >
+                <div
+                  className={
+                    (eTables.ActiveTable || eTables.ArchivedTable) &&
+                    style.activeTable_table_row__item
+                  }
+                >
+                  {elem.name}
                 </div>
-              )}
-
-              {tableName === "archivedTable" && (
-                <div className={`${style}.${tableName}_table_row__item`}>
-                  {archiveTableIcons.map((elem) => {
-                    return (
-                      <div className="icons_wrapper">
-                        <img
-                          src={elem.src}
-                          alt={elem.alt}
-                          className={elem.style}
-                        ></img>
-                      </div>
-                    );
-                  })}
+                <div
+                  className={
+                    (eTables.ActiveTable || eTables.ArchivedTable) &&
+                    style.activeTable_table_row__item
+                  }
+                >
+                  {elem.creation_time}
                 </div>
-              )}
-            </div>
-          );
-        })}
+                <div
+                  className={
+                    (eTables.ActiveTable || eTables.ArchivedTable) &&
+                    style.activeTable_table_row__item
+                  }
+                >
+                  {elem.category}
+                </div>
+                <div
+                  className={
+                    (eTables.ActiveTable || eTables.ArchivedTable) &&
+                    style.activeTable_table_row__item
+                  }
+                >
+                  {elem.content}
+                </div>
+                <div
+                  className={
+                    (eTables.ActiveTable || eTables.ArchivedTable) &&
+                    style.activeTable_table_row__item
+                  }
+                >
+                  {elem.dates}
+                </div>
+                {/* ------- Table icons section start ------ */}
+                {tableName === "activeTable" && (
+                  <div
+                    className={
+                      eTables.ActiveTable && style.activeTable_table_row__item
+                    }
+                    onClick={(e) => {
+                      clickIconHandler(e, elem);
+                    }}
+                  >
+                    {activeTableIcons.map((elem) => {
+                      return (
+                        <div className={style.icons_wrapper} key={elem.alt}>
+                          <img
+                            src={elem.src}
+                            alt={elem.alt}
+                            className={style.icons_item}
+                          ></img>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+                {tableName === "archivedTable" && (
+                  <div
+                    className={
+                      eTables.ArchivedTable && style.activeTable_table_row__item
+                    }
+                    onClick={(e) => {
+                      clickIconHandler(e, elem);
+                    }}
+                  >
+                    {archiveTableIcons.map((elem) => {
+                      return (
+                        <div className="icons_wrapper" key={elem.alt}>
+                          <img
+                            src={elem.src}
+                            alt={elem.alt}
+                            className={style.icons_item}
+                          ></img>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        {/* ------- Table icons section end ------ */}
+        {tableName === "pivotTable" &&
+          (rows as Array<IPivot>).map((elem) => {
+            return (
+              <div
+                className={eTables.PivotTable && style.pivotTable_table_row}
+                key={elem.categories}
+              >
+                <div
+                  className={
+                    eTables.PivotTable && style.pivotTable_table_row__item
+                  }
+                >
+                  {elem.categories}
+                </div>
+                <div
+                  className={
+                    eTables.PivotTable && style.pivotTable_table_row__item
+                  }
+                >
+                  {elem.active}
+                </div>
+                <div
+                  className={
+                    eTables.PivotTable && style.pivotTable_table_row__item
+                  }
+                >
+                  {elem.archived}
+                </div>
+              </div>
+            );
+          })}
+        {/* ------ Table rows end ----------- */}
       </div>
     </div>
   );

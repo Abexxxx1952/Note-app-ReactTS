@@ -1,3 +1,8 @@
+import editIcon from "../icons/edit.png";
+import archiveIcon from "../icons/archive.png";
+import trashIcon from "../icons/trash.png";
+import unzipIcon from "../icons/unzip.png";
+
 export const activeTableHeaders = [
   "Name",
   "Created",
@@ -7,9 +12,9 @@ export const activeTableHeaders = [
   "Icons",
 ];
 export const activeTableIcons = [
-  { src: "../icons/edit.png", alt: "edit_icon", style: "edit_icon" },
-  { src: "../icons/archive.png", alt: "archive_icon", style: "archive_icon" },
-  { src: "../icons/trash.png", alt: "trash_icon", style: "trash_icon" },
+  { src: editIcon, alt: "edit_icon" },
+  { src: archiveIcon, alt: "archive_icon" },
+  { src: trashIcon, alt: "trash_icon" },
 ];
 
 export const archivedTableHeaders = [
@@ -22,8 +27,8 @@ export const archivedTableHeaders = [
 ];
 
 export const archiveTableIcons = [
-  { src: "../icons/unzip.png", alt: "unzip_icon", style: "archive_icon" },
-  { src: "../icons/trash.png", alt: "trash_icon", style: "trash_icon" },
+  { src: unzipIcon, alt: "unzip_icon" },
+  { src: trashIcon, alt: "trash_icon" },
 ];
 
 export const pivotTableHeaders = ["Notes by categories", "Active", "Archived"];

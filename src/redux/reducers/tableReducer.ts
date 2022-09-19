@@ -68,7 +68,7 @@ const initialState: IInitialState = {
     },
   ],
   archivedTask: [],
-  activeTable: ActiveTable.ActiveTask,
+  activeTable: ActiveTable.ActiveTable,
 };
 
 const tableSlice = createSlice({
@@ -85,17 +85,17 @@ const tableSlice = createSlice({
 
       state.activeTask.splice(index, 1, action.payload);
     },
-    changeTable: (state: IInitialState) => {
+    switchTable: (state: IInitialState) => {
       switch (state.activeTable) {
-        case "activeTask":
-          state.activeTable = ActiveTable.ArchivedTask;
+        case ActiveTable.ActiveTable:
+          state.activeTable = ActiveTable.ArchivedTable;
           break;
-        case "archivedTask":
-          state.activeTable = ActiveTable.ActiveTask;
+        case ActiveTable.ArchivedTable:
+          state.activeTable = ActiveTable.ActiveTable;
           break;
 
         default:
-          state.activeTable = ActiveTable.ActiveTask;
+          state.activeTable = ActiveTable.ActiveTable;
       }
     },
 
@@ -119,10 +119,13 @@ const tableSlice = createSlice({
       const activeNote = state.activeTask.find(
         (item) => item.id === action.payload
       );
-      state.activeTask = state.activeTask.filter(
-        (item) => item.id !== action.payload
-      );
-      activeNote && state.archivedTask.push(activeNote);
+
+      if (activeNote) {
+        state.activeTask = state.activeTask.filter(
+          (item) => item.id !== action.payload
+        );
+        state.archivedTask.push(activeNote);
+      }
     },
     unzipNote: (state: IInitialState, action: PayloadAction<INote["id"]>) => {
       const archivedNote = state.archivedTask.find(
@@ -137,7 +140,7 @@ const tableSlice = createSlice({
 });
 
 export const {
-  changeTable,
+  switchTable,
   createNote,
   editNote,
   removeActiveNote,

@@ -1,4 +1,4 @@
 export enum ActiveTable {
-  ActiveTask = "activeTask",
-  ArchivedTask = "archivedTask",
+  ActiveTable = "activeTable",
+  ArchivedTable = "archivedTable",
 }

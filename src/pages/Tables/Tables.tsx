@@ -1,26 +1,76 @@
 import Table from "../../components/Table/Table";
+import { useAppDispatch } from "../../hooks/redux";
 
-import Button from "../../components/Button/Button";
+import { switchTable, openModal } from "../../redux/actions";
+import {
+  getActiveTable,
+  getActiveTask,
+  getArchivedTask,
+} from "../../redux/selectors/tableSelectors";
 
-import { getActiveTable } from "../../redux/selectors/tableSelectors";
+import { Categories } from "../../types/Categories";
+import { eTables } from "../../types/tables";
 
 import style from "./Tables.module.css";
 
 const Tables = () => {
-  let activeTable = getActiveTable();
+  const dispatch = useAppDispatch();
+
+  const activeTable = getActiveTable();
+
+  const activeTableRows = getActiveTask();
+  const archivedTableRows = getArchivedTask();
+
+  const rows =
+    activeTable === "activeTable" ? activeTableRows : archivedTableRows;
+
+  const pivotTableRows = Object.values(Categories).map((elem) => {
+    const activeTaskValue = activeTableRows.filter(
+      (filterElem) => filterElem.category === elem
+    ).length;
+
+    const archivedTaskValue = archivedTableRows.filter(
+      (filterElem) => filterElem.category === elem
+    ).length;
+
+    return {
+      categories: elem,
+      active: activeTaskValue,
+      archived: archivedTaskValue,
+    };
+  });
+
+  const createNoteButtonHandler = () => {
+    dispatch(openModal());
+  };
+
+  const switchButtonLabel: string =
+    activeTable === "activeTable"
+      ? "Watch archived notes"
+      : "Watch active notes";
+
+  const switchButtonHandler = () => {
+    dispatch(switchTable());
+  };
 
   return (
     <>
-      {activeTable === "activeTask" && (
-        <Table tableName="activeTable" rows={} />
-      )}
-      {activeTable === "archivedTask" && <Table />}
+      <Table tableName={activeTable} rows={rows} />
+
       <div className={style.create_button_wrapper}>
-        <Button />
+        <button
+          className={style.add_task__button}
+          onClick={createNoteButtonHandler}
+        >
+          Create Note
+        </button>
+        ;
       </div>
-      <Table />
+      <Table tableName={eTables.PivotTable} rows={pivotTableRows} />
       <div className={style.switch_button_wrapper}>
-        <Button />
+        <button className={style.switch_button} onClick={switchButtonHandler}>
+          {switchButtonLabel}
+        </button>
       </div>
     </>
   );
