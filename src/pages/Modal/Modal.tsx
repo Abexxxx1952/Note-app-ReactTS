@@ -7,8 +7,8 @@ import style from "./Modal.module.css";
 const Modal = () => {
   return (
     <div className={style.modal_wrapper}>
-      <ModalOverlay />
       <ModalWindow />
+      <ModalOverlay />
     </div>
   );
 };

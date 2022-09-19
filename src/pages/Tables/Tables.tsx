@@ -64,7 +64,6 @@ const Tables = () => {
         >
           Create Note
         </button>
-        ;
       </div>
       <Table tableName={eTables.PivotTable} rows={pivotTableRows} />
       <div className={style.switch_button_wrapper}>

@@ -1,10 +1,8 @@
-import { MouseEvent } from "react";
+import { FC, MouseEvent } from "react";
 import { INote } from "../../types/note";
 import { eTables } from "../../types/tables";
 import { IPivot } from "../../types/pivot";
 import { ActiveTable } from "../../types/activeTable";
-import { IInputFieldsModal } from "../../types/inputFieldsModal";
-import { Categories } from "../../types/Categories";
 
 import {
   activeTableHeaders,
@@ -21,17 +19,18 @@ import {
   archiveNote,
   unzipNote,
   openModal,
+  editModOn,
   editFieldsValues,
 } from "../../redux/actions";
 
 import style from "./Table.module.css";
 
-interface IMyProps {
+interface IMyTableProps {
   tableName: ActiveTable | eTables;
   rows: Array<INote> | Array<IPivot>;
 }
 
-const Table: React.FC<IMyProps> = ({ tableName, rows }: IMyProps) => {
+const Table: FC<IMyTableProps> = ({ tableName, rows }: IMyTableProps) => {
   const dispatch = useAppDispatch();
 
   const deleteActiveNote = (id: INote["id"]) => {
@@ -47,18 +46,13 @@ const Table: React.FC<IMyProps> = ({ tableName, rows }: IMyProps) => {
     dispatch(unzipNote(id));
   };
   const editActiveNote = (note: INote) => {
-    const seededFields: IInputFieldsModal = {
-      inputValue: note.name,
-      creation_time: note.creation_time,
-      inputCategory: note.category as Categories,
-      inputContent: note.content,
-      inputDates: note.dates,
-    };
-    dispatch(openModal);
-    dispatch(editFieldsValues(seededFields));
+    dispatch(openModal());
+    dispatch(editModOn());
+    dispatch(editFieldsValues(note));
   };
 
   const clickIconHandler = (e: any, note: INote) => {
+    console.log(e.target);
     if (e.target.alt === "trash_icon" && tableName === "activeTable") {
       deleteActiveNote(note.id);
     }

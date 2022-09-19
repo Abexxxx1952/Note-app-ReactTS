@@ -1,20 +1,24 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IInputFieldsModal } from "../../types/inputFieldsModal";
 import { Categories } from "../../types/Categories";
+import { INote } from "../../types/note";
 
 interface IInitialState {
   openModalFlag: boolean;
-  fieldsValues: IInputFieldsModal;
+  editModalFlag: boolean;
+  fieldsValues: INote;
 }
 
 const initialState: IInitialState = {
   openModalFlag: false,
+  editModalFlag: false,
   fieldsValues: {
-    inputValue: "",
+    id: 0,
+    name: "",
     creation_time: "",
-    inputCategory: Categories.Task,
-    inputContent: "",
-    inputDates: "",
+    category: Categories.Task,
+    content: "",
+    dates: "",
   },
 };
 
@@ -28,15 +32,24 @@ const modalSlice = createSlice({
     closeModal: (state: IInitialState) => {
       state.openModalFlag = false;
     },
-    editFieldsValues: (
-      state: IInitialState,
-      action: PayloadAction<IInputFieldsModal>
-    ) => {
+    editModOn: (state: IInitialState) => {
+      state.editModalFlag = true;
+    },
+    editModOff: (state: IInitialState) => {
+      state.editModalFlag = false;
+    },
+    editFieldsValues: (state: IInitialState, action: PayloadAction<INote>) => {
       state.fieldsValues = action.payload;
     },
   },
 });
 
-export const { openModal, closeModal, editFieldsValues } = modalSlice.actions;
+export const {
+  openModal,
+  closeModal,
+  editModOn,
+  editModOff,
+  editFieldsValues,
+} = modalSlice.actions;
 
 export default modalSlice.reducer;

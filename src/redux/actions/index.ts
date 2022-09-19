@@ -10,12 +10,16 @@ import {
 import {
   openModal,
   closeModal,
+  editModOn,
+  editModOff,
   editFieldsValues,
 } from "../reducers/modalReducer";
 
 export {
   openModal,
   closeModal,
+  editModOn,
+  editModOff,
   editFieldsValues,
   switchTable,
   editNote,

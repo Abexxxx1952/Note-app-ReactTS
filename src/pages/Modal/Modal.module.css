@@ -6,7 +6,8 @@
   background: rgb(228, 231, 228);
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
-  display: none;
+  display: flex;
+  align-self: center;
   flex-direction: column;
   justify-content: center;
   align-items: center;

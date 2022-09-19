@@ -32,3 +32,4 @@ export const archiveTableIcons = [
 ];
 
 export const pivotTableHeaders = ["Notes by categories", "Active", "Archived"];
+export const regexp = /\d{1,2}\/\d{1,2}\/\d{2,4}/g;
