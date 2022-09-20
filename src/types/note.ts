@@ -1,6 +1,6 @@
 import { Categories } from "./Categories";
 export interface INote {
-  id: number;
+  id: string;
   name: string;
   creation_time: string;
   category: Categories;

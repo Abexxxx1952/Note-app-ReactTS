@@ -12,7 +12,6 @@ import {
   editFieldsValues,
 } from "../../redux/actions";
 
-import { getActiveTask } from "../../redux/selectors/tableSelectors";
 import {
   getEditFlag,
   getFieldsValues,
@@ -20,6 +19,8 @@ import {
 
 import { INote } from "../../types/note";
 import { regexp } from "../../utils/constant";
+
+import { nanoid } from "nanoid";
 import style from "./ModalWindow.module.css";
 
 const ModalWindow: FC = () => {
@@ -29,8 +30,6 @@ const ModalWindow: FC = () => {
   const actionLabel = editMod ? "Edit Note" : "Add Note";
 
   const [noteModal, setNote] = useState<INote>(note);
-
-  const activeTaskQuantity = getActiveTask().length;
 
   const ValidationFields = ({
     inputValue,
@@ -47,6 +46,7 @@ const ModalWindow: FC = () => {
   };
 
   const modalButtonHandler = () => {
+    const noteId = nanoid();
     if (
       ValidationFields({
         inputValue: noteModal.name,
@@ -59,7 +59,7 @@ const ModalWindow: FC = () => {
       !editMod &&
         dispatch(
           createNote({
-            id: activeTaskQuantity + 1,
+            id: noteId,
             name: noteModal.name,
             creation_time: new Date().toLocaleDateString("en-US", {
               month: "long",
@@ -86,7 +86,7 @@ const ModalWindow: FC = () => {
       editMod && dispatch(editModOff());
       dispatch(
         editFieldsValues({
-          id: 0,
+          id: "0",
           name: "",
           creation_time: "",
           category: Categories.Task,

@@ -14,7 +14,7 @@ const ModalOverlay: FC = () => {
     dispatch(editModOff());
     dispatch(
       editFieldsValues({
-        id: 0,
+        id: "0",
         name: "",
         creation_time: "",
         category: Categories.Task,
