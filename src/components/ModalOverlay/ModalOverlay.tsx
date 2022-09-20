@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { closeModal, editFieldsValues, editModOff } from "../../redux/actions";
 import { useAppDispatch } from "../../hooks/redux";
 
@@ -5,7 +6,7 @@ import { Categories } from "../../types/Categories";
 
 import style from "./ModalOverlay.module.css";
 
-const ModalOverlay = () => {
+const ModalOverlay: FC = () => {
   const dispatch = useAppDispatch();
 
   const closeModalHandler = () => {

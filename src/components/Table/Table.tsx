@@ -51,21 +51,21 @@ const Table: FC<IMyTableProps> = ({ tableName, rows }: IMyTableProps) => {
     dispatch(editFieldsValues(note));
   };
 
-  const clickIconHandler = (e: any, note: INote) => {
-    console.log(e.target);
-    if (e.target.alt === "trash_icon" && tableName === "activeTable") {
+  const clickIconHandler = (e: MouseEvent<HTMLImageElement>, note: INote) => {
+    console.log(e.currentTarget.alt);
+    if (e.currentTarget.alt === "trash_icon" && tableName === "activeTable") {
       deleteActiveNote(note.id);
     }
-    if (e.target.alt === "trash_icon" && tableName === "archivedTable") {
+    if (e.currentTarget.alt === "trash_icon" && tableName === "archivedTable") {
       deleteArchivedNote(note.id);
     }
-    if (e.target.alt === "archive_icon") {
+    if (e.currentTarget.alt === "archive_icon") {
       archiveActiveNote(note.id);
     }
-    if (e.target.alt === "unzip_icon") {
+    if (e.currentTarget.alt === "unzip_icon") {
       unzipArchivedNote(note.id);
     }
-    if (e.target.alt === "edit_icon") {
+    if (e.currentTarget.alt === "edit_icon") {
       editActiveNote(note);
     }
   };
@@ -176,17 +176,17 @@ const Table: FC<IMyTableProps> = ({ tableName, rows }: IMyTableProps) => {
                     className={
                       eTables.ActiveTable && style.activeTable_table_row__item
                     }
-                    onClick={(e) => {
-                      clickIconHandler(e, elem);
-                    }}
                   >
-                    {activeTableIcons.map((elem) => {
+                    {activeTableIcons.map((elemIcon) => {
                       return (
-                        <div className={style.icons_wrapper} key={elem.alt}>
+                        <div className={style.icons_wrapper} key={elemIcon.alt}>
                           <img
-                            src={elem.src}
-                            alt={elem.alt}
+                            src={elemIcon.src}
+                            alt={elemIcon.alt}
                             className={style.icons_item}
+                            onClick={(e) => {
+                              clickIconHandler(e, elem);
+                            }}
                           ></img>
                         </div>
                       );
@@ -198,17 +198,17 @@ const Table: FC<IMyTableProps> = ({ tableName, rows }: IMyTableProps) => {
                     className={
                       eTables.ArchivedTable && style.activeTable_table_row__item
                     }
-                    onClick={(e) => {
-                      clickIconHandler(e, elem);
-                    }}
                   >
-                    {archiveTableIcons.map((elem) => {
+                    {archiveTableIcons.map((elemIcon) => {
                       return (
-                        <div className="icons_wrapper" key={elem.alt}>
+                        <div className="icons_wrapper" key={elemIcon.alt}>
                           <img
-                            src={elem.src}
-                            alt={elem.alt}
+                            src={elemIcon.src}
+                            alt={elemIcon.alt}
                             className={style.icons_item}
+                            onClick={(e) => {
+                              clickIconHandler(e, elem);
+                            }}
                           ></img>
                         </div>
                       );

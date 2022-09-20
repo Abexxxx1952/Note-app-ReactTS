@@ -1,3 +1,4 @@
+import { FC } from "react";
 import Table from "../../components/Table/Table";
 import { useAppDispatch } from "../../hooks/redux";
 
@@ -13,7 +14,7 @@ import { eTables } from "../../types/tables";
 
 import style from "./Tables.module.css";
 
-const Tables = () => {
+const Tables: FC = () => {
   const dispatch = useAppDispatch();
 
   const activeTable = getActiveTable();

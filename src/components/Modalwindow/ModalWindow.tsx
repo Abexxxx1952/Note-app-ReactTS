@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, FC } from "react";
 import { Categories } from "../../types/Categories";
 import { IInputFieldsModal } from "../../types/inputFieldsModal";
 
@@ -22,7 +22,7 @@ import { INote } from "../../types/note";
 import { regexp } from "../../utils/constant";
 import style from "./ModalWindow.module.css";
 
-const ModalWindow = () => {
+const ModalWindow: FC = () => {
   const dispatch = useAppDispatch();
   const editMod = getEditFlag();
   const note = getFieldsValues();
