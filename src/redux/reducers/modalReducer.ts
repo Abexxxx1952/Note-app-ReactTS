@@ -13,7 +13,7 @@ const initialState: IInitialState = {
   openModalFlag: false,
   editModalFlag: false,
   fieldsValues: {
-    id: "0",
+    id: 0,
     name: "",
     creation_time: "",
     category: Categories.Task,

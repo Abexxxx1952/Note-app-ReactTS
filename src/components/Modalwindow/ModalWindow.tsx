@@ -20,7 +20,7 @@ import {
 import { INote } from "../../types/note";
 import { regexp } from "../../utils/constant";
 
-import { nanoid } from "nanoid";
+import { customAlphabet } from "nanoid";
 import style from "./ModalWindow.module.css";
 
 const ModalWindow: FC = () => {
@@ -46,7 +46,8 @@ const ModalWindow: FC = () => {
   };
 
   const modalButtonHandler = () => {
-    const noteId = nanoid();
+    const nanoid = customAlphabet("1234567890", 10);
+    const noteId = parseInt(nanoid());
     if (
       ValidationFields({
         inputValue: noteModal.name,
@@ -86,7 +87,7 @@ const ModalWindow: FC = () => {
       editMod && dispatch(editModOff());
       dispatch(
         editFieldsValues({
-          id: "0",
+          id: 0,
           name: "",
           creation_time: "",
           category: Categories.Task,
