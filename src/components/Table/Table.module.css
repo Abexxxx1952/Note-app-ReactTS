@@ -1,9 +1,7 @@
 .activeTable_table {
   width: 95%;
 }
-/* .archivedTable_table {
-  width: 95%;
-} */
+
 .activeTable_table_header {
   display: flex;
   justify-content: space-around;
@@ -14,16 +12,7 @@
   background: rgb(152, 240, 213);
   border-radius: 5px;
 }
-/* .archivedTable_table_header {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-wrap: nowrap;
-  width: 100%;
-  margin: 10px;
-  background: rgb(152, 240, 213);
-  border-radius: 5px;
-} */
+
 .activeTable_table_row {
   display: flex;
   justify-content: space-around;
