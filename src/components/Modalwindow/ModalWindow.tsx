@@ -1,4 +1,6 @@
 import { useState, FC } from "react";
+import Button from "../Button/Button";
+
 import { Categories } from "../../types/Categories";
 import { IInputFieldsModal } from "../../types/inputFieldsModal";
 
@@ -163,9 +165,7 @@ const ModalWindow: FC = () => {
       </div>
 
       <div className="submit">
-        <button className={style.add_btn} onClick={modalButtonHandler}>
-          {actionLabel}
-        </button>
+        <Button modalButtonHandler={modalButtonHandler}>{actionLabel}</Button>
       </div>
     </div>
   );

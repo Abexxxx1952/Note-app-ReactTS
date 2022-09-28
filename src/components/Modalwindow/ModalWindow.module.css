@@ -18,11 +18,6 @@ input {
   margin: 10px;
 }
 
-.add_btn {
-  margin-top: 10px;
-  width: 150px;
-  height: 30px;
-}
 input ~ div > p {
   display: none;
 }

@@ -1,31 +1,25 @@
 import { FC } from "react";
-import { closeModal, editFieldsValues, editModOff } from "../../redux/actions";
-import { useAppDispatch } from "../../hooks/redux";
-
-import { Categories } from "../../types/Categories";
 
 import style from "./ModalOverlay.module.css";
 
-const ModalOverlay: FC = () => {
-  const dispatch = useAppDispatch();
+interface IModalOverlayProps {
+  bgColor?: string;
+  closeModalHandler: () => void;
+}
 
-  const closeModalHandler = () => {
-    dispatch(closeModal());
-    dispatch(editModOff());
-    dispatch(
-      editFieldsValues({
-        id: 0,
-        name: "",
-        creation_time: "",
-        category: Categories.Task,
-        content: "",
-        dates: "",
-      })
-    );
-  };
-
+const ModalOverlay: FC<IModalOverlayProps> = ({
+  bgColor,
+  closeModalHandler,
+}: IModalOverlayProps) => {
   return (
-    <div className={style.modal_overlay} onClick={closeModalHandler}></div>
+    <div
+      className={
+        bgColor === "blue"
+          ? `${style.modal_overlay} ${style.modal_overlay_bgBlue}`
+          : `${style.modal_overlay}`
+      }
+      onClick={closeModalHandler}
+    ></div>
   );
 };
 
