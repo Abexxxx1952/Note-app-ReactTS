@@ -1,0 +1,14 @@
+.modal_wrapper {
+  width: 100%;
+  max-width: 1000px;
+  max-height: 600px;
+  padding: 30px 30px;
+  background: rgb(228, 231, 228);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  display: flex;
+  align-self: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

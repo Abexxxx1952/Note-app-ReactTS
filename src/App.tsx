@@ -1,15 +1,19 @@
-import ActiveNote from "./pages/ActiveNote";
-import ArchivedNote from "./pages/ArchivedNote";
-import Modal from "./pages/Modal";
+import Tables from "./pages/Tables/Tables";
+
+import Modal from "./pages/Modal/Modal";
+
+import { getModalFlag } from "./redux/selectors/modalSelectors";
 
 import style from "./App.module.css";
 
 function App() {
+  let modalFlag = getModalFlag();
+
   return (
     <main className={style.App}>
-      <ActiveNote />
-      <ArchivedNote />
-      <Modal />
+      {!modalFlag && <Tables />}
+
+      {modalFlag && <Modal />}
     </main>
   );
 }
